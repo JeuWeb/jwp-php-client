@@ -40,7 +40,7 @@ final class ClientTest extends TestCase
   {
     $auth = $this->getDevAuth();
     $client = new Jwp\Client($auth);
-    $resp = $client->connect(['channels' => ['chan1', 'chan2']]);
+    $resp = $client->connect(['socket_id' => '123', 'channels' => ['chan1', 'chan2']]);
     $this->assertArrayHasKey('app_id', $resp);
     $this->assertArrayHasKey('connect_token', $resp);
   }
