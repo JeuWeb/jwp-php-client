@@ -45,7 +45,6 @@ class Client
     private function handleResponse(Response $response)
     {
         $body = \GuzzleHttp\json_decode($response->getBody(), true);
-        var_dump($body);
         $status = array_key_exists('status', $body) ? $body['status'] : '__nostatus__';
         switch ($status) {
             case 'ok':

@@ -20,55 +20,55 @@ final class ClientTest extends TestCase
     return new Jwp\Auth('xxx', 'xxx');
   }
 
-  // public function test401Unauthorized(): void
-  // {
-  //   $this->expectException(AuthenticationException::class);
-  //   $client = new Jwp\Client($this->getBadAuth());
-  //   $client->connect();
-  // }
+  public function test401Unauthorized(): void
+  {
+    $this->expectException(AuthenticationException::class);
+    $client = new Jwp\Client($this->getBadAuth());
+    $client->connect();
+  }
 
-  // public function testCanConnectToDevServer(): void
-  // {
-  //   $auth = $this->getDevAuth();
-  //   $client = new Jwp\Client($auth);
-  //   $resp = $client->connect();
-  //   $this->assertArrayHasKey('app_id', $resp);
-  //   $this->assertArrayHasKey('connect_token', $resp);
-  // }
+  public function testCanConnectToDevServer(): void
+  {
+    $auth = $this->getDevAuth();
+    $client = new Jwp\Client($auth);
+    $resp = $client->connect();
+    $this->assertArrayHasKey('app_id', $resp);
+    $this->assertArrayHasKey('connect_token', $resp);
+  }
 
-  // public function testCanConnectToDevServerWithAChannelList(): void
-  // {
-  //   $auth = $this->getDevAuth();
-  //   $client = new Jwp\Client($auth);
-  //   $resp = $client->connect(['channels' => ['chan1', 'chan2']]);
-  //   $this->assertArrayHasKey('app_id', $resp);
-  //   $this->assertArrayHasKey('connect_token', $resp);
-  // }
+  public function testCanConnectToDevServerWithAChannelList(): void
+  {
+    $auth = $this->getDevAuth();
+    $client = new Jwp\Client($auth);
+    $resp = $client->connect(['channels' => ['chan1', 'chan2']]);
+    $this->assertArrayHasKey('app_id', $resp);
+    $this->assertArrayHasKey('connect_token', $resp);
+  }
 
-  // public function testCanConnectToDevServerWithPerChannelConfiguration(): void
-  // {
-  //   $auth = $this->getDevAuth();
-  //   $client = new Jwp\Client($auth);
-  //   $resp = $client->connect(['channels' => [
-  //     // Empty configuration
-  //     'chan1' => (object) [],
-  //     'chan2' =>  ['presence_track' => true]
-  //     // Unknown fields are ignore
-  //   ]]);
-  //   $this->assertArrayHasKey('app_id', $resp);
-  //   $this->assertArrayHasKey('connect_token', $resp);
-  // }
+  public function testCanConnectToDevServerWithPerChannelConfiguration(): void
+  {
+    $auth = $this->getDevAuth();
+    $client = new Jwp\Client($auth);
+    $resp = $client->connect(['channels' => [
+      // Empty configuration
+      'chan1' => (object) [],
+      'chan2' =>  ['presence_track' => true]
+      // Unknown fields are ignore
+    ]]);
+    $this->assertArrayHasKey('app_id', $resp);
+    $this->assertArrayHasKey('connect_token', $resp);
+  }
 
-  // public function testCannotConnectToDevServerWithBadChannelConfiguration(): void
-  // {
-  //   $auth = $this->getDevAuth();
-  //   $client = new Jwp\Client($auth);
-  //   $this->expectException(ClientException::class);
-  //   // `true` is not a valid configuration
-  //   $client->connect(['channels' => ['chan1' => true]]);
-  // }
+  public function testCannotConnectToDevServerWithBadChannelConfigurationValue(): void
+  {
+    $auth = $this->getDevAuth();
+    $client = new Jwp\Client($auth);
+    $this->expectException(ClientException::class);
+    // `true` is not a valid configuration
+    $client->connect(['channels' => ['chan1' => true]]);
+  }
 
-  public function testCannotConnectToDevServerWithBadChannelConfiguration(): void
+  public function testCannotConnectToDevServerWithBadChannelConfigurationKey(): void
   {
     $auth = $this->getDevAuth();
     $client = new Jwp\Client($auth);
