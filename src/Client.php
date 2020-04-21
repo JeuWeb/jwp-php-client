@@ -13,9 +13,11 @@ use Jwp\Exception\ServerException;
 class Client
 {
     private $http;
+    private $auth;
 
     public function __construct(Auth $auth)
     {
+        $this->auth = $auth;
         $this->http = new Http([
             'base_uri' => 'http://localhost:4000',
             'timeout'  => 2.0,
@@ -61,9 +63,20 @@ class Client
         }
     }
 
-    public function connect(array $options = [])
+    public function authenticateSocket(string $socketID, int $maxAge)
     {
-        return $this->post('/api/v1/token/authorize-socket', ['body' => json_encode($options)]);
+        if ($maxAge > 3600) {
+            throw new ClientException("Max age value is too high: $maxAge");
+        }
+
+        $endTime = time() + $maxAge;
+        $signature = $this->auth->sign("$socketID:$endTime");
+        return "$socketID:$endTime:$signature";
+    }
+
+    public function authenticateChannel(string $socketID, string $channel, array $meta = null, array $options = [])
+    {
+        return $this->auth->signChannelAuth($socketID, $channel, ['meta' => (object) $meta, 'options' => (object) $options]);
     }
 
     public function push($channel, $event, $payload)
