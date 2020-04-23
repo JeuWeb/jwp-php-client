@@ -35,7 +35,9 @@ class Auth
 
     public function signChannelAuth(string $socketID, string $channel, $data = null): array
     {
-        $auth = [];
+        // appID is only required to be given to the JS client library in order
+        // to create the full topic name – useful for async params generation.
+        $auth = ['app_id' => $this->appID];
         $signature = null;
 
         if ($data !== null) {
@@ -43,8 +45,8 @@ class Auth
             $auth['auth'] = $this->sign("$socketID:$channel:$dataAsJson");
             $auth['data'] = $dataAsJson;
         } else {
-            $auth['data'] = null;
             $auth['auth'] = $this->sign("$socketID:$channel");
+            $auth['data'] = null;
         }
 
         return $auth;
