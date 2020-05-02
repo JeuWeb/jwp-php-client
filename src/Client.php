@@ -65,7 +65,7 @@ class Client
 
     public function authenticateSocket(string $socketID, int $maxAge)
     {
-        if ($maxAge > 3600) {
+        if ($maxAge > 60) {
             throw new ClientException("Max age value is too high: $maxAge");
         }
 
